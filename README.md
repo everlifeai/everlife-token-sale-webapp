@@ -29,6 +29,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 |STELLAR_ENV            |development||
 |IDM_PLUGIN_JS          |https://cd1st.identitymind.com/idm.min.js||
 |IDM_PLUGIN_TOKEN       ||See `tools/getIdmAppToken.js` for how to authenticate and get the token.|
+|STELLAR_TESTNET        |'true' or 'false' (String -> true is testnet - false is real network.|
 
 ### Using IdentityMind integration for local testing
 

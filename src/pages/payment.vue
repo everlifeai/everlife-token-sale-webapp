@@ -172,7 +172,8 @@
         try {
           if (nextStep === 2) {
             //TODO: Check that the destination account is valid and has trustline
-            //getAccountBalance(this.destinationAccount)
+            const accountResponse = await getAccountBalance(this.destinationAccount);
+            console.log(accountResponse);
           }
           if (nextStep === 3) {
             //TODO: Check that the source account is valid
