@@ -146,9 +146,9 @@ export default {
   data() {
     return {
     min: 0,
-        max: 10000000,
+        max: 1000000,
         slider: 10000,
-        range: [0, 10000000],
+        range: [0, 1000000],
       cards: [
         { src: 'https://everlife.ai/images/coin/ever-coin-1.png', flex: 3, ever:'250' },
         { src: 'https://everlife.ai/images/coin/ever-coin-2.png', flex: 3, ever:'1,000'  },

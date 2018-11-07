@@ -49,5 +49,9 @@ export default {
 
   kycStatus(state){
     return state.user.kycStatus;
+  },
+
+  kycDetails(state){
+    return state.user.kycDetails;
   }
 }

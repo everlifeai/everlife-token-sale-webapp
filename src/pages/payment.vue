@@ -18,13 +18,13 @@
                   <v-divider></v-divider>
                   <br/>
                   <div class="headline">Your Stellar Account</div>
-                  <div>Choose which account in which to receive your EVER, once payment has been recieved, by entering your <b>public</b> account number.</div>
+                  <div>Enter the stellar account public key in which you would like to receive EVER tokens.</div>
                   <br/>
                   <v-text-field solo v-model="destinationAccount"></v-text-field>
                   <div><b>This account must:</b></div>
                   <ol>
                     <li>Be under your control, i.e. you must be able to sign for it to access your EVER once the tokens have been transferred there.</li>
-                    <li>Be active, i.e. have a minimum balance of XLM</li>
+                    <li>Be active, i.e. have a minimum balance of 2 XLM</li>
                     <li>Have an existing trust line to the asset EVER issued by GDRCJ5OJTTIL4VUQZ52PCZYAUINEH2CUSP5NC2R6D6WQ47JBLG6DF5TE</li>
                     <li>Follow Document <a href="https://medium.com/everlife-ai/how-to-accept-and-hold-ever-tokens-c249fa2dac70" target="_blank">click Here</a></li>
                   </ol>

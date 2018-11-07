@@ -14,7 +14,9 @@ export default {
     isAdmin:false,
     isVerifier:false,
     isActive:false,
-    kycStatus:''
+    kycStatus:'',
+    kycDetails:'',
+    address:''
   },
   aggregates: {
     ever_amount: 0,
