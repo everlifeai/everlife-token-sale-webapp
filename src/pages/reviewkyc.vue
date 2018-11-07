@@ -6,19 +6,33 @@
     class="elevation-1"
   >
     <template slot="items" slot-scope="props">
-      <td class="text-xs-center">{{ props.item.name}}</td>
-      <td class="text-xs-center">{{ props.item.email}}</td>
-      <td class="text-xs-center">{{ props.item.phone}}</td>
+      <td class="">{{ props.item.name}}</td>
+      <td class="">{{ props.item.email}}</td>
+      <td class="">{{ props.item.phone}}</td>
+      <td class="">{{ props.item.createdAt | formatDate}}</td>
+      <td class="text-xs-center">{{ props.item.address}}</td>
       <td class="text-xs-center">{{ props.item.idmStatus}}</td>
-      <td><img v-img="{ cursor: 'zoom-in' }" :src="props.item.kycDocs.document1" width="50" height="40" style="margin-top:7px"></td>
-      <td><img v-img="{ cursor: 'zoom-in' }" :src="props.item.kycDocs.document2" width="50" height="40" style="margin-top:7px"></td>
+      <td class="text-xs-center">
+        <span v-if="props.item.kycStatus=='ACCEPT'"><v-chip small  color="green" text-color="white">Accept</v-chip></span>
+        <span v-else-if="props.item.kycStatus=='REJECT'"><v-chip small  color="red" text-color="white">Reject</v-chip></span>
+        <span v-else-if="props.item.kycStatus=='PENDING'"><v-chip small color="orange" text-color="white">Pending</v-chip></span>
+
+
+      </td>
+      <td >
+        <figure class="half" style="display:flex">
+          <img v-img="{ cursor: 'zoom-in' }" :src="props.item.kycDocs.document2" width="50" height="40" class="mr-2" style="margin-top:7px">
+          <img v-img="{ cursor: 'zoom-in' }" :src="props.item.kycDocs.document1" width="50" height="40" style="margin-top:7px">
+        </figure>
+      </td>
       <td class="justify-center layout px-0">
-        <v-btn small text-xs-center color="primary" @click="acceptItem(props.item)">
-          Accept
-        </v-btn>
-        <v-btn small text-xs-center color="error" @click="rejectItem(props.item)">
-          Reject
-        </v-btn>
+        <v-icon small text-xs-center color="primary" class="mr-2" @click="acceptItem(props.item)">
+          thumb_up
+        </v-icon>
+
+        <v-icon small text-xs-center color="error"  @click="rejectItem(props.item)">
+          thumb_down
+        </v-icon>
         </td>
     </template>
   </v-data-table>
@@ -45,14 +59,15 @@ Vue.use(VueImg, vueImgConfig)
     data: function () {
       return {
         headers: [
-            { text: "name", align: "center", sortable: false, value: 'name' },
-            { text: "email", align: "center", sortable: false, value: 'email' },
-            { text: "phone", align: "center", sortable: false, value: 'phone' },
-            { text: "idmStatus", align: "center", sortable: false, value: 'idmStatus' },
-            { text: "profilePic", align: "center", sortable: false, value: 'profilePic' },
-            { text: "profileId", align: "center", sortable: false, value: 'profileId' },
+            { text: "Name", align: "center", sortable: false, value: 'name' },
+            { text: "Email", align: "center", sortable: false, value: 'email' },
+            { text: "Phone", align: "center", sortable: false, value: 'phone' },
+            { text: "Created", align: "center", sortable: false, value: 'created' },
+            { text: "Address", align: "center", sortable: false, value: 'address' },
+            { text: "IDM Status", align: "center", sortable: false, value: 'idmStatus' },
+            { text: "KYC Status", align: "center", sortable: true, value: 'kycStatus' },
+            { text: "ID Proof", align: "center", sortable: false, value: 'idProof' },
             { text: "Actions", align: "center", sortable: false},
-
           ],
           items: []
 

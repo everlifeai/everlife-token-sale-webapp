@@ -16,6 +16,8 @@ export default {
     state.user.isVerifier = user.isVerifier;
     state.user.isActive = user.isActive;
     state.user.kycStatus = user.kycStatus;
+    state.user.kycDetails = user.kycDetails;
+    state.user.address = user.address;
   },
 
   storeAggregates(state, aggregates) {

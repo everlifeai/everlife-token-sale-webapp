@@ -34,6 +34,7 @@
     </div>
     <v-alert class="alert text-md-center caption" v-show="alert.show" :color="alert.color">
         <span>{{alert.text}}</span>
+        <span>{{alert.reason}}</span>
         <span v-show="alert.rshow"><router-link  :to="{ name: 'kyc'}"  class="text-color:white">Proceed to Submit your KYC details</router-link></span>
         <br/>
       </v-alert>
@@ -108,6 +109,9 @@ export default {
           if (this.$store.getters.kycStatus=="ACCEPT") {
             return {show:false, enablePurchaseBtn:true};
           }else if(this.$store.getters.kycStatus=="REJECT"){
+              if(this.$store.getters.kycDetails!=null){
+                return {show:true,  rshow:true, enablePurchaseBtn:false, color:"error", text:"We regret to inform you that your KYC application was rejected.", rejshow:true, reason:'Reason : '+this.$store.getters.kycDetails};
+              }
             return {show:true,  rshow:true, enablePurchaseBtn:false, color:"error", text:"We regret to inform you that your KYC application was rejected."};
           }else if(this.$store.getters.kycStatus=="PENDING"){
             return {show:true, rshow:false, enablePurchaseBtn:false, color:"warning", text:"Waiting for KYC approval, a notification e-mail will be sent once verification is complete."};
@@ -115,7 +119,7 @@ export default {
               return {show:true, rshow:true, enablePurchaseBtn:false, color:"error", text:"Your KYC is Pending."};
           }
         }else{
-        return {show:false, rshow:false};
+            return {show:false, rshow:false, rejshow:false};
         }
       },
 
@@ -134,7 +138,7 @@ export default {
               return [
                   { title: "Dashboard", to: "/dashboard" },
                   { title: "KYC", to: "/kyc" },
-                //  { title: "Payment", to: "/payment" },
+                  { title: "Payment", to: "/payment" },
                   { title: "Logout", to: "/logout" }
               ]
             }else if(idmStatus != null && idmStatus != "DECLINE"){
