@@ -20,7 +20,15 @@
                   <div class="headline">Your Stellar Account</div>
                   <div>Enter the stellar account public key in which you would like to receive EVER tokens.</div>
                   <br/>
-                  <v-text-field solo v-model="destinationAccount"></v-text-field>
+                  <v-text-field solo
+                  v-model="destinationAccount"
+                  :counter="56"
+                  label="Stellar Account"
+                  maxLength="56"
+                  :error-messages="errors"
+                  required
+                  >
+                  </v-text-field>
                   <div><b>This account must:</b></div>
                   <ol>
                     <li>Be under your control, i.e. you must be able to sign for it to access your EVER once the tokens have been transferred there.</li>
@@ -64,11 +72,14 @@
                     <v-form v-show="selectedCurrency === 'XLM'">
 
                       <div> Enter the account <b>from</b> which your payment in XLM will be made. </div>
-                      <v-text-field
-                        light :solo="true"
+                      <v-text-field solo
                         v-model="xlmSourceAccount"
-                        required
-                      ></v-text-field>
+                        :counter="56"
+                        label="Stellar Account"
+                        maxLength="56"
+                        :error-messages="errors"
+                        required>
+                      </v-text-field>
 
                       <v-checkbox
                         v-model="secureCheck2"
@@ -126,12 +137,12 @@
   import VueMarkdown from 'vue-markdown'
   import axios from "../axios";
   import {
-    getAccountBalance
+    getAccountBalance,
+    isStellarAccount
   } from "../stellar/transaction";
 
   export default {
-    data() {
-      return {
+    data: () => ({
         done: false,
         step: 0,
         amountEver: 0,
@@ -144,9 +155,52 @@
         currencies: ['BTC', 'ETH', 'XLM'],
         errorMessage: null,
         paymentInstruction: null,
-        paymentLink: null
-      };
+        paymentLink: null,
+        input: '',
+        errors: [],
+        stellarAccountCheck:false,
+        stellarAccountCheck2:false
+
+
+    }),
+    watch: {
+        destinationAccount (val) {
+          let self=this
+          const vv = isStellarAccount(val);
+          vv.then(function(value) {
+
+          if(value.isvalid){
+            self.stellarAccountCheck=true;
+            self.errors = [value.msg]
+          }else{
+            self.stellarAccountCheck=false;
+            self.secureCheck=false;
+            self.errors = [value.msg]
+
+          }
+          });
+        },
+
+        xlmSourceAccount (val) {
+          let self=this
+          let ss=this
+          const vv = isStellarAccount(val);
+          vv.then(function(value) {
+
+          if(value.isvalid){
+            self.stellarAccountCheck2=true;
+            self.errors = [value.msg]
+          }else{
+            self.stellarAccountCheck2=false;
+            self.secureCheck2=false;
+            self.errors = [value.msg]
+
+          }
+          });
+
+        }
     },
+
     created() {
         this.amountEver = this.$route.params.amountEver;
         if(this.$route.query.debug) {
@@ -159,7 +213,7 @@
 
     methods: {
       async registerPurchase() {
-        const everAsNumber = this.amountEver.replace(/[,\s]/g, '');
+      const everAsNumber = this.amountEver.replace(/[, ]+/g, '').trim();
         const response = await axios.post("api/account/purchase", {
           "ever_amount": everAsNumber,
           "currency": this.selectedCurrency,
@@ -172,13 +226,11 @@
         try {
           if (nextStep === 2) {
             //TODO: Check that the destination account is valid and has trustline
-            const accountResponse = await getAccountBalance(this.destinationAccount);
-            console.log(accountResponse);
+            //getAccountBalance(this.destinationAccount)
           }
           if (nextStep === 3) {
             //TODO: Check that the source account is valid
             const paymentResponse = await this.registerPurchase();
-            console.log(paymentResponse);
             this.paymentInstruction = paymentResponse.pay_instruction;
             this.paymentLink = paymentResponse.payment_link;
           }
@@ -187,18 +239,27 @@
           this.errorMessage = e.message;
         }
       }
+
     },
     computed: {
       paymentAmount() {
         return parseInt(this.xlmAmount) + 3;
       },
       hasAcceptedStep1Terms() {
-        return this.secureCheck;
+        if(this.stellarAccountCheck==true){
+          return this.secureCheck;
+        }else{
+          return false;
+        }
       },
       step2complete() {
         if (this.selectedCurrency) {
           if (this.selectedCurrency === 'XLM') {
-            return this.secureCheck2;
+            if(this.stellarAccountCheck2==true){
+              return this.secureCheck2;
+            }else{
+              return false;
+            }
           } else {
             return true;
           }

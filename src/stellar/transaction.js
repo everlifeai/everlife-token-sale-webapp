@@ -13,10 +13,32 @@ if (process.env.STELLAR_TESTNET === "true") {
     StellarSdk.Network.usePublicNetwork();
 }
 
+
+export const isStellarAccount = async function (publicKey) {
+  // Validate key
+  let validKey = StellarSdk.StrKey.isValidEd25519PublicKey(publicKey);
+
+  if(!validKey) {
+      return {'isvalid':false, 'msg':'Invalid Stellar Public Key'};
+  }
+
+  // Verify account exists
+  let account = await validateRecipientExists(publicKey);
+
+  if(!account) {
+    return {'isvalid':false, 'msg':'Stellar Account Dosent Exist'};
+  }
+
+  return {'isvalid':true, 'msg':''};
+
+};
+
+
 /*   outcome/
  * This function will return the user account balance.
  * By using public key of user.
  */
+
 export const getAccountBalance = async function (publicKey) {
     // Validate key
     let validKey = StellarSdk.StrKey.isValidEd25519PublicKey(publicKey);
@@ -43,7 +65,7 @@ export const getAccountBalance = async function (publicKey) {
     if(!account.balances.some((balance) => balance.asset_code === "EVER")) {
         return false;
     }
-    
+
     return true;
 };
 
