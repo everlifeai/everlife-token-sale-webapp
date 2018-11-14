@@ -218,6 +218,7 @@ Vue.use(VueImg, vueImgConfig)
           var recipientItem = {
             email: item.email,
             name: item.name,
+            kycDetails:item.kycDetails,
           };
 
           axios.post('api/communicate/mail', {
