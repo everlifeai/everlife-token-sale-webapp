@@ -49,8 +49,8 @@
               <tr>
                 <td  class="pa-4">
                   <div  class="title">How it Works</div>
-                  <div class="pt-4">EVER is equal to 0.1 USD. You will be able to purchase EVER once your KYC is approved. View the video to understand the purchase process. <BR/> <BR/></div>
-                  Move Slider to select how much EVER you are looking to purchase. <BR/>
+                  <div class="pt-4">You will be able to purchase EVER using XLM, ETH or BTC once your KYC is approved.  <BR/> <BR/></div>
+                  Move the slider to select the amount of EVER you are looking to purchase. <BR/>
                   <!--<v-btn  color="secondary">FAQ / Learn More</v-btn>-->
                   <br/>
                 </td>
@@ -65,7 +65,7 @@
               <div class="pa-4">
                 <v-layout fill-height>
                   <v-flex xs12 align-end >
-                    <div class="subheading">Purchase a custom amount of EVER</div>
+                    <div class="subheading">Purchase EVER</div>
                     <div class="pt-2 title text-xs-center font-weight-bold">{{ slider }} <span class="body-1 text-xs-center">EVER</span></div>
                     <div >
                       <v-flex class="px-5">
